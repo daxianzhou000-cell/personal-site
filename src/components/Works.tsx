@@ -2,55 +2,57 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Play } from 'lucide-react';
 
+const localVideo = (index: number) => `${import.meta.env.BASE_URL}videos/video${index}.mp4`;
+
 const videos = [
   {
     title: "《变形记》",
     category: "荒谬怪诞",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B%5B00-00-35%5D%5B20260326-005758671%5D.jpg",
     // 这里填入你压缩后上传到 public 文件夹的视频文件名，或者其他云盘的直链
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B~2.mp4", 
+    url: localVideo(1), 
   },
   {
     title: "《中式梦核》",
     category: "视觉盛宴",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/c1%5B00-00-09%5D%5B20260326-005701755%5D.jpg",
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/c1.mp4",
+    url: localVideo(2),
   },
   {
     title: "《局外人》",
     category: "不相干",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%B1%80%E5%A4%96%E4%BA%BA%E3%80%8B%5B00-00-03%5D%5B20260326-005943762%5D.jpg",
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%B1%80%E5%A4%96%E4%BA%BA%E3%80%8B.mp4",
+    url: localVideo(3),
   },
   {
     title: "《玻璃山》",
     category: "大山压顶",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E7%8E%BB%E7%92%83%E5%B1%B1%E3%80%8B%5B00-00-05%5D%5B20260326-010036619%5D.jpg",
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E7%8E%BB%E7%92%83%E5%B1%B1%E3%80%8B~1.mp4",
+    url: localVideo(4),
   },
   {
     title: "《美丽新84》-1",
     category: "梦之天堂",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/0e6091e0-bfd3-47f5-ac9c-8f9cc685ee31_1758076186463575403~tplv-a9rns2rl98-web-preview-watermark.png",
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E7%BE%8E%E4%B8%BD%E6%96%B084%E3%80%8B-1.mp4",
+    url: localVideo(5),
   },
   {
     title: "《美丽新84》-2",
     category: "死之压抑",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/e034f6dd-e7f1-4042-8a8c-7c1d8c38a4c7%5B00-00-08%5D%5B20250926-091655477%5D.jpg",
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E7%BE%8E%E4%B8%BD%E6%96%B084%E3%80%8B-2.mp4",
+    url: localVideo(6),
   },
   {
     title: "《工位越近素质越低》",
     category: "人之常情",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%B7%A5%E4%BD%8D%E8%B6%8A%E8%BF%91%EF%BC%8C%E7%B4%A0%E8%B4%A8%E8%B6%8A%E4%BD%8E%E3%80%8B%5B00-00-11%5D%5B20260326-005842637%5D.jpg",
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%B7%A5%E4%BD%8D%E8%B6%8A%E8%BF%91%EF%BC%8C%E7%B4%A0%E8%B4%A8%E8%B6%8A%E4%BD%8E%E3%80%8B~1.mp4",
+    url: localVideo(7),
   },
   {
     title: "《重生末世》",
     category: "海外出口",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/3.png",
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/b76bd25961fe358054ccded97a2fa34c.mp4",
+    url: localVideo(8),
   }
 ];
 
