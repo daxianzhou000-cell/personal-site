@@ -168,7 +168,7 @@ export default function About() {
             {/* Image Container */}
             <div className="relative h-64 border-2 border-[#00E5FF] overflow-hidden group bg-[#FFE600]">
               <img 
-                src={asset('avatar.jpg')} 
+                src={asset('avatar.optimized.jpg')} 
                 alt="周宏伟" 
                 className="w-full h-full object-cover filter saturate-125 contrast-110 group-hover:saturate-150 group-hover:scale-110 group-hover:brightness-110 group-hover:hue-rotate-15 transition-all duration-500"
                 referrerPolicy="no-referrer"

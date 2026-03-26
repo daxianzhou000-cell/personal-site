@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Sparkles, MousePointer2, Smile, Eye } from 'lucide-react';
 import PixelGlobe from './PixelGlobe';
 
-const heroImageUrl = `${import.meta.env.BASE_URL}hero-image.jpg`;
+const heroImageUrl = `${import.meta.env.BASE_URL}hero-image.optimized.jpg`;
 
 export default function Hero() {
   const constraintsRef = useRef(null);
