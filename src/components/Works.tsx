@@ -3,14 +3,25 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Play, X } from 'lucide-react';
 
 const localVideo = (index: number) => `${import.meta.env.BASE_URL}videos/video${index}.mp4`;
+const localPreviewVideo = (index: number) => `${import.meta.env.BASE_URL}videos/video${index}-preview.mp4`;
 
-const videos = [
+type VideoItem = {
+  title: string;
+  category: string;
+  thumb: string;
+  url: string;
+  fullUrl?: string;
+  previewLabel?: string;
+};
+
+const videos: VideoItem[] = [
   {
     title: "《变形记》",
     category: "荒谬怪诞",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B%5B00-00-35%5D%5B20260326-005758671%5D.jpg",
-    // 这里填入你压缩后上传到 public 文件夹的视频文件名，或者其他云盘的直链
-    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B~2.mp4",
+    url: localPreviewVideo(1),
+    fullUrl: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B~2.mp4",
+    previewLabel: "Preview Clip 12s",
   },
   {
     title: "《中式梦核》",
@@ -58,9 +69,9 @@ const videos = [
 
 export default function Works() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<typeof videos[0] | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
 
-  const openVideo = (video: typeof videos[0]) => {
+  const openVideo = (video: VideoItem) => {
     setSelectedVideo(video);
   };
 
@@ -193,6 +204,24 @@ export default function Works() {
                 playsInline
                 preload="metadata"
               />
+
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-[#13141C] via-[#13141C]/90 to-transparent px-4 py-4 md:px-6">
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#00E5FF]">
+                  {selectedVideo.previewLabel ?? 'Full Video'}
+                </p>
+
+                {selectedVideo.fullUrl && (
+                  <a
+                    href={selectedVideo.fullUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border-2 border-[#FF00FF] bg-[#FF00FF] px-4 py-2 text-sm font-black uppercase tracking-[0.16em] text-white transition-all hover:border-[#00E5FF] hover:bg-[#00E5FF] hover:text-black"
+                  >
+                    观看完整版
+                    <ArrowRight size={16} />
+                  </a>
+                )}
+              </div>
             </motion.div>
           </motion.div>
         )}
