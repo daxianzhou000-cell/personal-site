@@ -34,7 +34,7 @@ const education = [
     period: "2024.09 - 2027.06",
     school: "中南大学 (985)",
     major: "新闻与传播 · 研究生",
-    logo: asset('csu-logo.png'),
+    logo: asset('csu-logo.optimized.png'),
     accent: "#FF2A2A",
     rotate: "-2deg"
   },
@@ -42,7 +42,7 @@ const education = [
     period: "2020.09 - 2024.06",
     school: "北京化工大学 (211)",
     major: "财务管理 · 本科",
-    logo: asset('buct-logo.png'),
+    logo: asset('buct-logo.optimized.png'),
     accent: "#0033FF",
     rotate: "3deg"
   }
@@ -170,6 +170,8 @@ export default function About() {
               <img 
                 src={asset('avatar.optimized.jpg')} 
                 alt="周宏伟" 
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover filter saturate-125 contrast-110 group-hover:saturate-150 group-hover:scale-110 group-hover:brightness-110 group-hover:hue-rotate-15 transition-all duration-500"
                 referrerPolicy="no-referrer"
               />
@@ -310,6 +312,8 @@ export default function About() {
                         <img 
                           src={edu.logo} 
                           alt={edu.school} 
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-contain relative z-10 brightness-110 contrast-125" 
                           style={{ 
                             filter: "url(#remove-white) drop-shadow(0 0 15px rgba(0, 229, 255, 0.7))",

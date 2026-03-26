@@ -202,6 +202,9 @@ export default function Hero() {
               <motion.img 
                 src={heroImageUrl} 
                 alt="HD Portrait" 
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 initial={false}
                 animate={{
                   opacity: isRevealed ? 1 : 0,
@@ -235,6 +238,9 @@ export default function Hero() {
                     <motion.img 
                       src={heroImageUrl} 
                       alt="Pixel Portrait" 
+                      loading="eager"
+                      decoding="async"
+                      fetchPriority="high"
                       animate={{
                         filter: [
                           "url(#pixel-filter) saturate(1.6) brightness(1.1) hue-rotate(0deg)",

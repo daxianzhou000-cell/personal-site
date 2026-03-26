@@ -199,6 +199,8 @@ export default function Experience() {
                           <img 
                             src={item.logoUrl} 
                             alt={`${item.company} logo`} 
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-contain p-2"
                             onError={(e) => {
                               (e.target as HTMLImageElement).style.display = 'none';
@@ -272,6 +274,8 @@ export default function Experience() {
                         <img 
                           src={selectedExp.logoUrl} 
                           alt={`${selectedExp.company} logo`} 
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-contain p-1"
                           onError={(e) => {
                             (e.target as HTMLImageElement).style.display = 'none';
