@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Anton", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer utilities {
+  .comic-border {
+    @apply border-2 border-[#00E5FF];
+  }
+  .comic-shadow {
+    @apply shadow-[6px_6px_0px_0px_rgba(255,0,255,0.8)];
+  }
+  .comic-shadow-sm {
+    @apply shadow-[4px_4px_0px_0px_rgba(255,230,0,0.8)];
+  }
+  .comic-shadow-hover {
+    @apply hover:shadow-[8px_8px_0px_0px_rgba(0,229,255,0.8)] hover:-translate-y-1 transition-all duration-200;
+  }
+  .bg-dots {
+    background-image: radial-gradient(rgba(0, 229, 255, 0.15) 2px, transparent 2px);
+    background-size: 24px 24px;
+  }
+  .bg-grid {
+    background-image: linear-gradient(to right, rgba(0,229,255,0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0,229,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  @keyframes hologram-flicker {
+    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+      opacity: 0.9;
+      filter: brightness(1);
+    }
+    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+      opacity: 0.4;
+      filter: brightness(1.5) contrast(1.5);
+    }
+  }
+}
+
+body {
+  background-color: #13141C;
+  color: #E2E8F0;
+  overflow-x: hidden;
+}
