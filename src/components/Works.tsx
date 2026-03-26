@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
-import { ArrowRight, Play } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, Play, X } from 'lucide-react';
 
 const localVideo = (index: number) => `${import.meta.env.BASE_URL}videos/video${index}.mp4`;
 
@@ -58,9 +58,14 @@ const videos = [
 
 export default function Works() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<typeof videos[0] | null>(null);
 
   const openVideo = (video: typeof videos[0]) => {
-    window.open(video.url, '_blank', 'noopener,noreferrer');
+    setSelectedVideo(video);
+  };
+
+  const closeVideo = () => {
+    setSelectedVideo(null);
   };
 
   return (
@@ -98,9 +103,6 @@ export default function Works() {
         >
           Featured AIGC Works
         </motion.p>
-        <p className="mt-3 text-sm text-gray-300 font-medium">
-          点击作品后将在新标签页播放，避免站内播放器持续缓冲
-        </p>
       </div>
 
       {/* Accordion Container */}
@@ -159,6 +161,42 @@ export default function Works() {
 
       </div>
 
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#13141C]/92 p-4 md:p-12"
+            onClick={closeVideo}
+          >
+            <motion.div
+              initial={{ scale: 0.96, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.96, opacity: 0, y: 20 }}
+              className="relative w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-[0_0_30px_rgba(0,229,255,0.3)] border-2 border-[#00E5FF]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="absolute -top-12 right-0 text-white hover:text-[#FF00FF] transition-colors z-10 drop-shadow-[0_0_5px_rgba(255,0,255,0.5)]"
+                onClick={closeVideo}
+              >
+                <X size={36} />
+              </button>
+
+              <video
+                src={selectedVideo.url}
+                poster={selectedVideo.thumb}
+                className="w-full h-full object-contain"
+                controls
+                autoPlay
+                playsInline
+                preload="metadata"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
