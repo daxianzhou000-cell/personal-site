@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Play, X } from 'lucide-react';
 
 const localVideo = (index: number) => `${import.meta.env.BASE_URL}videos/video${index}.mp4`;
-const localPreviewVideo = (index: number) => `${import.meta.env.BASE_URL}videos/video${index}-preview.mp4`;
+const localHlsVideo = (index: number) => `${import.meta.env.BASE_URL}videos/video${index}-hls/playlist.m3u8`;
 
 type VideoItem = {
   title: string;
   category: string;
   thumb: string;
   url: string;
+  streamType?: 'mp4' | 'hls';
   fullUrl?: string;
   previewLabel?: string;
 };
@@ -19,9 +20,9 @@ const videos: VideoItem[] = [
     title: "《变形记》",
     category: "荒谬怪诞",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B%5B00-00-35%5D%5B20260326-005758671%5D.jpg",
-    url: localPreviewVideo(1),
-    fullUrl: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B~2.mp4",
-    previewLabel: "Preview Clip 12s",
+    url: localHlsVideo(1),
+    streamType: 'hls',
+    previewLabel: "HLS Stream",
   },
   {
     title: "《中式梦核》",
@@ -66,6 +67,63 @@ const videos: VideoItem[] = [
     url: localVideo(8),
   }
 ];
+
+function VideoPlayer({ video }: { video: VideoItem }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const element = videoRef.current;
+    let disposed = false;
+    let hlsInstance: { destroy: () => void } | undefined;
+
+    if (!element) {
+      return;
+    }
+
+    if (video.streamType !== 'hls') {
+      element.src = video.url;
+      return;
+    }
+
+    if (element.canPlayType('application/vnd.apple.mpegurl')) {
+      element.src = video.url;
+      return;
+    }
+
+    void import('hls.js').then(({ default: Hls }) => {
+      if (disposed || !Hls.isSupported()) {
+        return;
+      }
+
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: false,
+        backBufferLength: 30,
+      });
+
+      hls.loadSource(video.url);
+      hls.attachMedia(element);
+      hlsInstance = hls;
+    });
+
+    return () => {
+      disposed = true;
+      hlsInstance?.destroy();
+    };
+  }, [video]);
+
+  return (
+    <video
+      ref={videoRef}
+      poster={video.thumb}
+      className="w-full h-full object-contain"
+      controls
+      autoPlay
+      playsInline
+      preload="metadata"
+    />
+  );
+}
 
 export default function Works() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -195,15 +253,7 @@ export default function Works() {
                 <X size={36} />
               </button>
 
-              <video
-                src={selectedVideo.url}
-                poster={selectedVideo.thumb}
-                className="w-full h-full object-contain"
-                controls
-                autoPlay
-                playsInline
-                preload="metadata"
-              />
+              <VideoPlayer video={selectedVideo} />
 
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-[#13141C] via-[#13141C]/90 to-transparent px-4 py-4 md:px-6">
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#00E5FF]">
