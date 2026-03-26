@@ -4,13 +4,15 @@ import { RotateCcw } from 'lucide-react';
 import IntroAnimation from './components/IntroAnimation';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
-import Works from './components/Works';
-import Skills from './components/Skills';
 import Footer from './components/Footer';
 import ClickEffect from './components/ClickEffect';
 import CustomCursor from './components/CustomCursor';
+import LazySection from './components/LazySection';
+
+const loadAbout = () => import('./components/About');
+const loadExperience = () => import('./components/Experience');
+const loadWorks = () => import('./components/Works');
+const loadSkills = () => import('./components/Skills');
 
 export default function App() {
   const [introDone, setIntroDone] = useState(false);
@@ -68,10 +70,10 @@ export default function App() {
           <Navbar />
           <Hero />
           <main className="relative z-10 w-full">
-            <About />
-            <Experience />
-            <Works />
-            <Skills />
+            <LazySection loader={loadAbout} minHeight="70vh" />
+            <LazySection loader={loadExperience} minHeight="55vh" />
+            <LazySection loader={loadWorks} minHeight="70vh" />
+            <LazySection loader={loadSkills} minHeight="45vh" />
           </main>
           <Footer />
           
