@@ -57,6 +57,20 @@ const videos = [
 export default function Works() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<typeof videos[0] | null>(null);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+
+  const openVideo = (video: typeof videos[0]) => {
+    setSelectedVideo(video);
+    setShouldLoadVideo(false);
+    setVideoReady(false);
+  };
+
+  const closeVideo = () => {
+    setSelectedVideo(null);
+    setShouldLoadVideo(false);
+    setVideoReady(false);
+  };
 
   return (
     <section id="works" className="relative py-24 scroll-mt-20 bg-[#13141C] overflow-hidden font-sans border-t-2 border-[#00E5FF]">
@@ -115,7 +129,7 @@ export default function Works() {
               }}
               onMouseEnter={() => setHoveredIndex(i)}
               onMouseLeave={() => setHoveredIndex(null)}
-              onClick={() => setSelectedVideo(video)}
+              onClick={() => openVideo(video)}
             >
               <img 
                 src={video.thumb} 
@@ -158,8 +172,8 @@ export default function Works() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#13141C]/90 p-4 md:p-12 backdrop-blur-md"
-            onClick={() => setSelectedVideo(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#13141C]/94 p-4 md:p-12"
+            onClick={closeVideo}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -170,19 +184,59 @@ export default function Works() {
             >
               <button 
                 className="absolute -top-12 right-0 text-white hover:text-[#FF00FF] transition-colors z-10 drop-shadow-[0_0_5px_rgba(255,0,255,0.5)]"
-                onClick={() => setSelectedVideo(null)}
+                onClick={closeVideo}
               >
                 <X size={36} />
               </button>
               
-              {/* Native HTML5 Video Player */}
-              <video 
-                src={selectedVideo.url} 
-                className="w-full h-full object-contain" 
-                controls 
-                autoPlay 
-                playsInline
-              />
+              {!shouldLoadVideo ? (
+                <button
+                  className="relative h-full w-full group"
+                  onClick={() => setShouldLoadVideo(true)}
+                >
+                  <img
+                    src={selectedVideo.thumb}
+                    alt={selectedVideo.title}
+                    className="h-full w-full object-cover opacity-80 group-hover:opacity-95 transition-opacity"
+                    loading="eager"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-[#FF00FF] text-white p-5 rounded-full border-2 border-[#FF00FF] shadow-[4px_4px_0px_0px_rgba(255,0,255,0.8)] group-hover:bg-[#00E5FF] group-hover:border-[#00E5FF] group-hover:text-black transition-colors">
+                      <Play fill="currentColor" size={36} className="ml-1" />
+                    </div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4 text-left text-white">
+                    <div className="text-xl font-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                      {selectedVideo.title}
+                    </div>
+                    <div className="mt-2 text-sm text-[#00E5FF] font-bold tracking-wider uppercase">
+                      点击后再加载视频，播放会更稳
+                    </div>
+                  </div>
+                </button>
+              ) : (
+                <>
+                  {!videoReady && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/60 z-10 text-white font-bold tracking-wide">
+                      视频缓冲中...
+                    </div>
+                  )}
+                  <video 
+                    src={selectedVideo.url}
+                    poster={selectedVideo.thumb}
+                    className="w-full h-full object-contain" 
+                    controls
+                    autoPlay
+                    playsInline
+                    preload="metadata"
+                    onCanPlay={() => setVideoReady(true)}
+                    onWaiting={() => setVideoReady(false)}
+                  />
+                </>
+              )}
             </motion.div>
           </motion.div>
         )}
