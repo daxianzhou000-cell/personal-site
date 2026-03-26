@@ -10,7 +10,7 @@ const videos = [
     category: "荒谬怪诞",
     thumb: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B%5B00-00-35%5D%5B20260326-005758671%5D.jpg",
     // 这里填入你压缩后上传到 public 文件夹的视频文件名，或者其他云盘的直链
-    url: localVideo(1), 
+    url: "https://my-portfolio-1416115630.cos.ap-guangzhou.myqcloud.com/%E3%80%8A%E5%8F%98%E5%BD%A2%E8%AE%B0%E3%80%8B~2.mp4",
   },
   {
     title: "《中式梦核》",
