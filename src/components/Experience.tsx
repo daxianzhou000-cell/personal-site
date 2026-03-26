@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Briefcase, Calendar, ArrowLeft, ArrowRight, Sparkles, Zap, Bot, Terminal, LayoutTemplate, Activity, Lightbulb, Video, Scissors, Image as ImageIcon } from 'lucide-react';
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 const getVisualIcon = (name: string) => {
   switch(name) {
     case 'Bot': return <Bot size={32} strokeWidth={2} />;
@@ -23,7 +25,7 @@ const expData = [
     period: "2025.12 - 2026.02",
     logoBg: "bg-[#FFE600]",
     logoText: "想",
-    logoUrl: "/xiangfaliu.png",
+    logoUrl: asset('xiangfaliu.png'),
     projectContent: "针对造梦次元平台“角色周边”模块定制成本高、复用性弱、迭代效率低的问题，参与搭建小剧场通用内容框架，沉淀“配置化编排 + Agent 生成 + H5 渲染”的标准化生产模式，支撑多主题内容快速复用与上线。",
     details: [
       {
@@ -65,7 +67,7 @@ const expData = [
     period: "2025.07 - 2025.10",
     logoBg: "bg-[#FF5500]",
     logoText: "芒",
-    logoUrl: "/mgtv.png",
+    logoUrl: asset('mgtv.png'),
     projectContent: "参与芒果TV自研 AIGC 平台的内容生态建设，负责垂直领域账号的内容策划与全链路运营。通过 AI 视频技术优化传统内容创作路径，实现高频次的优质内容产出。",
     details: [
       {

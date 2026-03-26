@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Sparkles, MousePointer2, Smile, Eye } from 'lucide-react';
 import PixelGlobe from './PixelGlobe';
 
+const heroImageUrl = `${import.meta.env.BASE_URL}hero-image.jpg`;
+
 export default function Hero() {
   const constraintsRef = useRef(null);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -198,7 +200,7 @@ export default function Hero() {
             <div className="relative w-full h-full overflow-hidden">
               {/* HD Image (Revealed) */}
               <motion.img 
-                src="/hero-image.jpg" 
+                src={heroImageUrl} 
                 alt="HD Portrait" 
                 initial={false}
                 animate={{
@@ -231,7 +233,7 @@ export default function Hero() {
                   >
                     {/* The Pixelated Portrait (Directly linked to HD) */}
                     <motion.img 
-                      src="/hero-image.jpg" 
+                      src={heroImageUrl} 
                       alt="Pixel Portrait" 
                       animate={{
                         filter: [

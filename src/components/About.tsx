@@ -13,6 +13,8 @@ import {
   Tooltip, Legend
 } from 'recharts';
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 const radarData = [
   { subject: '文科素养', current: 88, past: 95, fullMark: 100 },
   { subject: '技术能力', current: 75, past: 35, fullMark: 100 },
@@ -32,7 +34,7 @@ const education = [
     period: "2024.09 - 2027.06",
     school: "中南大学 (985)",
     major: "新闻与传播 · 研究生",
-    logo: "/csu-logo.png",
+    logo: asset('csu-logo.png'),
     accent: "#FF2A2A",
     rotate: "-2deg"
   },
@@ -40,7 +42,7 @@ const education = [
     period: "2020.09 - 2024.06",
     school: "北京化工大学 (211)",
     major: "财务管理 · 本科",
-    logo: "/buct-logo.png",
+    logo: asset('buct-logo.png'),
     accent: "#0033FF",
     rotate: "3deg"
   }
@@ -166,7 +168,7 @@ export default function About() {
             {/* Image Container */}
             <div className="relative h-64 border-2 border-[#00E5FF] overflow-hidden group bg-[#FFE600]">
               <img 
-                src="/avatar.jpg" 
+                src={asset('avatar.jpg')} 
                 alt="周宏伟" 
                 className="w-full h-full object-cover filter saturate-125 contrast-110 group-hover:saturate-150 group-hover:scale-110 group-hover:brightness-110 group-hover:hue-rotate-15 transition-all duration-500"
                 referrerPolicy="no-referrer"
