@@ -1,33 +1,40 @@
 import { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'motion/react';
+import { motion, useMotionValue } from 'motion/react';
 
 export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
-  
-  // Balanced spring for visibility and responsiveness
-  const springConfig = { damping: 35, stiffness: 600, mass: 0.6 };
-  const x = useSpring(mouseX, springConfig);
-  const y = useSpring(mouseY, springConfig);
 
   useEffect(() => {
+    let rafId = 0;
+
     const moveCursor = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      const { clientX, clientY } = e;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        mouseX.set(clientX);
+        mouseY.set(clientY);
+      });
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const isPointer = window.getComputedStyle(target).cursor === 'pointer';
+      const interactiveTarget = target.closest(
+        'a, button, input, textarea, select, summary, [role="button"], [data-cursor="pointer"]'
+      ) as HTMLElement | null;
+      const isPointer =
+        !!interactiveTarget ||
+        window.getComputedStyle(target).cursor === 'pointer';
       setIsHovering(isPointer);
     };
 
-    window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
     window.addEventListener('mouseover', handleMouseOver);
 
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
     };
@@ -36,7 +43,7 @@ export default function CustomCursor() {
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] hidden md:block">
       <motion.div
-        style={{ x, y, translateX: '-50%', translateY: '-50%' }}
+        style={{ x: mouseX, y: mouseY, translateX: '-50%', translateY: '-50%' }}
         className="relative flex items-center justify-center"
       >
         {/* Precision Center Dot */}
